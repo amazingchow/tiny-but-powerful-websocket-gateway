@@ -1,0 +1,25 @@
+version: "3.7"
+services:
+  infra-websocket-gateway-service:
+    image: infra-websocket-gateway-service:${IMAGE_VERSION}
+    container_name: infra-websocket-gateway-service
+    command: /app/infra-websocket-gateway-service -conf /app/config/infra-websocket-gateway-service.json
+    ports:
+      - 16888:16888
+    restart: always
+    env_file:
+      - ./.env.local
+      - ./.env.secret
+      - ./.env.shared
+    environment:
+      TZ: Asia/Shanghai
+      DEPLOY_ENV: prod
+      LOG_LEVEL: debug
+      LOG_PRINTER: disk
+      LOG_PRINTER_FILENAME: /app/logs/infra-websocket-gateway-service.log
+    volumes:
+      - ~/.infra-config/infra-websocket-gateway-service:/app/config
+      - ./.logs:/app/logs
+      - ./.persistent:/app/persistent
+      - ./.locks:/app/locks
+      - ./.shares:/app/shares

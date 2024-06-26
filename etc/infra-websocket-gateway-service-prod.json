@@ -1,0 +1,27 @@
+{
+    "deployment_env": "prod",
+    "service_name": "infra-websocket-gateway-service",
+    "service_group_name": "my-group",
+    "service_ws_endpoint": "0.0.0.0:16887",
+    "service_metrics_endpoint": "0.0.0.0:16889",
+	"log_level": "debug",
+    "log_printer": "disk",
+    "log_printer_filepath": "/app/logs",
+    "service_internal_config": {
+        "storage": {
+            "endpoint": "localhost:27017",
+            "root_usr": "root",
+            "root_pwd": "STORAGE_PWD",
+            "enable_ssl": false,
+            "db": "wechat_pay_backend_service",
+            "conn_timeout": 5
+        },
+        "cache": {
+            "endpoint": "localhost:6379",
+            "pwd": "CACHE_PWD",
+            "enable_ssl": false,
+            "db": 0,
+            "conn_timeout": 5
+        }
+    }
+}

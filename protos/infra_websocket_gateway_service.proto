@@ -1,0 +1,35 @@
+syntax = "proto3";
+
+option go_package = "github.com/amazingchow/tiny-but-powerful-websocket-gateway/internal/proto_gens";
+
+package infra_websocket_gateway_service;
+
+enum MessageType {
+  MESSAGE_TYPE_KEEPALIVE_PING = 0;
+  MESSAGE_TYPE_KEEPALIVE_PONG = 1;
+  /* 2 - 99 reserved */
+  /* 用户上线 (gate -> biz) */
+  MESSAGE_TYPE_USER_ONLINE = 100;
+  /* 用户即时上线, 用于刷新客户端的在线状态 (gate -> biz) */
+  MESSAGE_TYPE_USER_ONLINE_STATUS_ONLINE = 101;
+  /* 用户即时下线, 用于刷新客户端的在线状态 (gate -> biz) */
+  MESSAGE_TYPE_USER_ONLINE_STATUS_OFFLINE = 102;
+}
+
+message MessageInfo {
+  /* 消息类型 */
+  MessageType message_type = 1;
+  /* 消息体 */
+  bytes message_body = 2;
+  /* 用户的唯一标识 */
+  string uid = 3;
+  /* 消息的TraceID */
+  string trace_id = 4;
+  /* 客户端版本, 用于控制客户端与服务端之间的版本兼容性 */
+  string app_version = 5;
+  /* 6 - 99 reserved */
+  /* 用于客户端断线重连后的消息重推场景, 消息是否必须触达客户端 */
+  bool delivery_required = 100;
+  /* 用于客户端断线重连后的消息重推场景, 消息触达客户端前的存活时长 */
+  int64 delivery_required_ttl_in_secs = 101;
+}
